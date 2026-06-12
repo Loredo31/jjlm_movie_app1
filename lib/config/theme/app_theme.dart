@@ -4,5 +4,6 @@ class AppTheme{
 
   ThemeData getTheme() => ThemeData(
     colorSchemeSeed: Colors.red,
+    brightness: Brightness.dark
   );
 }
