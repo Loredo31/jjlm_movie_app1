@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jjlm_movie_app/config/config.dart';
 import 'package:jjlm_movie_app/domain/domain.dart';
 import 'package:jjlm_movie_app/presentation/providers/movies/movie_info_provider.dart';
+import 'package:jjlm_movie_app/presentation/widgets/movies/movie_genres.dart';
+import 'package:jjlm_movie_app/presentation/widgets/movies/movie_rating.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie-screen';
@@ -73,9 +75,10 @@ class _MovieDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // TODO: Título, overview y rating
-        _TitleAndOverview(movie: movie)
+        _TitleAndOverview(movie: movie),
 
         // TODO: Géneros de la película
+        MovieGenres(movie: movie),
 
         //TODO: Actores de la película
 
@@ -126,6 +129,8 @@ class _TitleAndOverview extends StatelessWidget {
                   ? movie.overview
                   : 'Sin información'
                 ),
+
+                MovieRating(voteAverage: movie.voteAverage),
 
                 Row(
                   children: [

@@ -2,11 +2,11 @@ import 'package:jjlm_movie_app/infrastructure/models/moviedb/moviedb_response.da
 import '../../domain/domain.dart';
 import '../models/moviedb/moviedb_detail.dart';
 
-
 class MovieMapper {
+
   static Movie movieDbToEntity(MovieDb movieDb) => Movie(
     adult: movieDb.adult,
-    backdropPath: ( movieDb.backdropPath != '')
+    backdropPath: (movieDb.backdropPath != '')
     ? 'https://image.tmdb.org/t/p/w500${movieDb.backdropPath}'
     : '',
     genreIds: movieDb.genreIds.map((e) => e.toString()).toList(),
@@ -22,15 +22,15 @@ class MovieMapper {
     title: movieDb.title,
     video: movieDb.video,
     voteAverage: movieDb.voteAverage,
-    voteCount: movieDb.voteCount,
+    voteCount: movieDb.voteCount
   );
 
   static Movie movieDetailToEntity(MovieDbDetail movieDb) => Movie(
     adult: movieDb.adult,
-    backdropPath: ( movieDb.backdropPath != '')
+    backdropPath: (movieDb.backdropPath != '')
     ? 'https://image.tmdb.org/t/p/w500${movieDb.backdropPath}'
     : '',
-    genreIds: movieDb.genres.map((e) => e.toString()).toList(),
+    genreIds: movieDb.genres.map((e) => e.name).toList(),
     id: movieDb.id,
     originalLanguage: movieDb.originalLanguage,
     originalTitle: movieDb.originalTitle,
@@ -43,6 +43,6 @@ class MovieMapper {
     title: movieDb.title,
     video: movieDb.video,
     voteAverage: movieDb.voteAverage,
-    voteCount: movieDb.voteCount,
+    voteCount: movieDb.voteCount
   );
 }

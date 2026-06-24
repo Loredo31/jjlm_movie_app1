@@ -30,3 +30,5 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+//! git commit -m "add: Implementación de generos de la pelicula y correccion de bugs"

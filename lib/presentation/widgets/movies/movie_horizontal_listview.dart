@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:jjlm_movie_app/domain/domain.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
-
   final List<Movie> movies;
   final String? title;
   final String? subTitle;
@@ -15,30 +14,29 @@ class MovieHorizontalListview extends StatefulWidget {
     required this.movies,
     this.title,
     this.subTitle,
-    this.loadNextPage
+    this.loadNextPage,
   });
 
   @override
-  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+  State<MovieHorizontalListview> createState() =>
+      _MovieHorizontalListviewState();
 }
 
 class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
-
   final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
-
-      if ((scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent) {
+      if ((scrollController.position.pixels + 200) >=
+          scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
     });
   }
-  
+
   @override
   void dispose() {
     scrollController.dispose();
@@ -47,60 +45,49 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 350,
-      child: Column(
-        children: [
-
-          // Titles 
-          _Title(title: widget.title, subTitle: widget.subTitle),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.movies.length,
-              scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return FadeInRight(child: _Slide(movie: widget.movies[index]));
-              },
-            )
-          )
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _Title(title: widget.title, subTitle: widget.subTitle),
+        SizedBox(
+          height: 290,
+          child: ListView.builder(
+            controller: scrollController,
+            itemCount: widget.movies.length,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return FadeInRight(child: _Slide(movie: widget.movies[index]));
+            },
+          ),
+        ),
+      ],
     );
   }
 }
 
 class _Title extends StatelessWidget {
-
   final String? title;
   final String? subTitle;
 
-
-  const _Title({
-    this.title,
-    this.subTitle
-  });
+  const _Title({this.title, this.subTitle});
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
-    return Container(
-      padding: EdgeInsets.only(top: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
         children: [
           if (title != null)
-          Text(title!, style: titleStyle,),
-
-          if (subTitle != null) 
-          FilledButton.tonal(
-            onPressed: null, 
-            style: ButtonStyle(visualDensity: VisualDensity.compact),
-            child: Text(subTitle!),
-          ),
-
-          Chip(label: Text(subTitle!),
-          )
+            Text(title!, style: Theme.of(context).textTheme.titleLarge),
+          const Spacer(),
+          if (subTitle != null)
+            FilledButton.tonal(
+              onPressed: () {},
+              style: ButtonStyle(visualDensity: VisualDensity.compact),
+              child: Text(subTitle!),
+            ),
         ],
       ),
     );
@@ -108,45 +95,39 @@ class _Title extends StatelessWidget {
 }
 
 class _Slide extends StatelessWidget {
-
   final Movie movie;
-  const _Slide({
-    required this.movie
-  });
+
+  const _Slide({required this.movie});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-
-          // Imagen
-          SizedBox(
-            width: 150,
-            child:ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: GestureDetector(
-                onTap: () => context.push('/home/0/movie/${movie.id}'),
-                child: Image.network(
-                  height: 220,
-                  movie.posterPath,
-                  fit: BoxFit.cover,
-                ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: GestureDetector(
+              onTap: () => context.push('/home/0/movie/${movie.id}'),
+              child: Image.network(
+                movie.posterPath,
+                width: 150,
+                height: 200,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-
-          SizedBox(height: 5),
-
-          //Titulo
+          const SizedBox(height: 5),
           SizedBox(
             width: 150,
             child: Text(
               movie.title,
               maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 13),
             ),
           ),
         ],
