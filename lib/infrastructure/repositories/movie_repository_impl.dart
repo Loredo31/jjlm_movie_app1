@@ -3,6 +3,12 @@ import "package:jjlm_movie_app/domain/domain.dart";
 class MovieRepositoryImpl extends MoviesRepository {
   final MoviesDatasource datasource;
   MovieRepositoryImpl(this.datasource);
+
+  @override
+  Future<List<Actor>> getActorsByMovie(String movieId) {
+    return datasource.getActorsByMovie(movieId);
+  }
+
   @override
   Future<Movie> getMovieById(String id) {
     return datasource.getMovieById(id);

@@ -3,4 +3,4 @@ export 'package:jjlm_movie_app/presentation/widgets/movies/movie_horizontal_list
 export './shared/custom_appbar.dart';
 export './movies/movies_slideshow.dart';
 export 'package:jjlm_movie_app/presentation/widgets/movies/movie_rating.dart';
-
+export 'package:jjlm_movie_app/presentation/widgets/actors/actors_by_movie.dart';

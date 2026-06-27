@@ -1,12 +1,10 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:jjlm_movie_app/domain/domain.dart';
+import 'package:jjlm_movie_app/presentation/providers/providers.dart';
+import 'package:jjlm_movie_app/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jjlm_movie_app/config/config.dart';
-import 'package:jjlm_movie_app/domain/domain.dart';
-import 'package:jjlm_movie_app/presentation/providers/movies/movie_info_provider.dart';
-import 'package:jjlm_movie_app/presentation/widgets/movies/movie_genres.dart';
-import 'package:jjlm_movie_app/presentation/widgets/movies/movie_rating.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:jjlm_movie_app/config/helpers/human_fomarts.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie-screen';
@@ -28,6 +26,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
     
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -81,6 +80,7 @@ class _MovieDetails extends StatelessWidget {
         MovieGenres(movie: movie),
 
         //TODO: Actores de la película
+        ActorsByMovie(movieId: movie.id.toString()),
 
         //TODO: Tráilers de la película
 
@@ -104,7 +104,7 @@ class _TitleAndOverview extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
