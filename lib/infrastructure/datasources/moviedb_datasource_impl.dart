@@ -58,6 +58,23 @@ class MoviedbDatasourceImpl extends MoviesDatasource {
   }
 
   @override
+  Future<List<Video>> getYoutubeVideoById(String movieId) async {
+    final response = await dio.get( '/movie/$movieId/videos' );
+    final videosResponse = MovieDbVideosResponse.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final v in videosResponse.results) {
+      if (v.site == 'YouTube') {
+        final video = VideoMapper.movieDbVideoToEntity(v);
+        videos.add(video);
+      }
+    }
+
+    return videos;
+    
+  }
+
+  @override
   Future<List<Movie>> getPopular({int page = 1}) {
     // TODO: implement getPopular
     throw UnimplementedError();
@@ -78,12 +95,6 @@ class MoviedbDatasourceImpl extends MoviesDatasource {
   @override
   Future<List<Movie>> getUpcoming({int page = 1}) {
     // TODO: implement getUpcoming
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Movie>> getYoutubeVideoById(String movieId) {
-    // TODO: implement getYoutubeVideoById
     throw UnimplementedError();
   }
 

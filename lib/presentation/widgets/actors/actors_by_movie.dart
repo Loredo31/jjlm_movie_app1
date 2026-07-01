@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jjlm_movie_app/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
@@ -29,37 +30,46 @@ class ActorsByMovie extends ConsumerWidget {
 
           // print(actor.profilePath);
 
-          return Container(
-            padding: EdgeInsets.all(8),
-            width: 135,
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    actor.profilePath,
-                    height: 180,
-                    width: 135,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress){
-                      if (loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 2,));
-                      return child;
-                    },
+          return FadeInRight(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              width: 135,
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      height: 180,
+                      width: 135,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress){
+                        if (loadingProgress == null) return child;
+            
+                        return SizedBox(
+                          height: 180,
+                          width: 135,
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2,)
+                          )
+                        );
+                      },
+                    ),
                   ),
-                ),
-
-                Text(
-                  actor.name,
-                  maxLines:2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  actor.character ?? '',
-                  maxLines: 2,
-                  style: TextStyle(fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
-                ),
-
-              ],
+            
+                  Text(
+                    actor.name,
+                    maxLines:2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    actor.character ?? '',
+                    maxLines: 2,
+                    style: TextStyle(fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
+                  ),
+            
+                ],
+              ),
             ),
           );
         },
