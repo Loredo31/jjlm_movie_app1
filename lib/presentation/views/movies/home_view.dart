@@ -10,7 +10,8 @@ class HomeView extends ConsumerStatefulWidget {
   ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends ConsumerState<HomeView> {
+class _HomeViewState extends ConsumerState<HomeView> 
+with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
@@ -20,6 +21,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
 
@@ -55,4 +57,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
