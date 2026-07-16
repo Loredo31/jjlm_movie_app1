@@ -9,7 +9,7 @@ class CustomBottomNavigation extends StatelessWidget {
     });
 
   void onItemTapped(BuildContext context, int index){
-    context.go('/home:$index');
+    context.go('/home/$index');
   }
 
   @override

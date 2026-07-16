@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jjlm_movie_app/presentation/providers/providers.dart';
+import 'package:jjlm_movie_app/presentation/widgets/movies/movie_masonry.dart';
 
 class PopularView extends ConsumerStatefulWidget {
   const PopularView({super.key});
@@ -18,9 +19,12 @@ class _PopularViewState extends ConsumerState<PopularView> with AutomaticKeepAli
     final popularMovies = ref.watch(nowPlayingMoviesProvider);
 
     if (popularMovies.isEmpty) {
-      return Center(child: CircularProgressIndicator(strokeWidth: 2));
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
-    return Placeholder();
+    return MovieMasonry(
+      movies: popularMovies,
+      loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+    );
   }
 
   @override
